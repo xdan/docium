@@ -1,3 +1,8 @@
+/*!
+ * Docium (https://xdsoft.net/docium/)
+ * Released under MIT see LICENSE.txt in the project root for license information.
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ */
 const path = require('path');
 const Template = require('./modules/template');
 const glob = require('glob-promise');
@@ -46,7 +51,7 @@ class Docium {
 	}
 
 	async run() {
-		await this.template.prepareDist(this.distPath);
+		await this.template.prepare(this.distPath);
 		await this.writeMarkDownFiles();
 
 		output.info('Finished');
@@ -81,8 +86,8 @@ class Docium {
 		const markdownFiles = (
 			await glob.promise(this.sourcePath + '/**/*.md')
 		).filter(
-			filePath =>
-				!this.options.excludes.some(excludePath => {
+			(filePath) =>
+				!this.options.excludes.some((excludePath) => {
 					if (excludePath.startsWith(path.sep)) {
 						return filePath.indexOf(excludePath) === 0;
 					}
@@ -92,15 +97,15 @@ class Docium {
 		);
 
 		return Promise.all(
-			markdownFiles.map(async filePath => {
+			markdownFiles.map(async (filePath) => {
 				const content = await fs.readFile(filePath, 'utf-8'),
 					relativePayth = path.relative(this.sourcePath, filePath),
 					directoryPath = path.dirname(relativePayth);
 
-				let
-					fileName = path.basename(relativePayth, path.extname(relativePayth));
-
-				console.log(fileName);
+				let fileName = path.basename(
+					relativePayth,
+					path.extname(relativePayth)
+				);
 
 				if (fileName.toLowerCase() === 'readme') {
 					fileName = 'index';
@@ -108,7 +113,14 @@ class Docium {
 
 				fs.ensureDir(path.resolve(this.distPath, directoryPath));
 
-				return this.template.makeHTMlFile(path.resolve(this.distPath, directoryPath, `${fileName}.html`), content);
+				return this.template.makeHTMlFile(
+					path.resolve(
+						this.distPath,
+						directoryPath,
+						`${fileName}.html`
+					),
+					content
+				);
 			})
 		);
 	}

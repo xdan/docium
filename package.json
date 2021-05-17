@@ -7,6 +7,10 @@
 	},
 	"typings": "index.d.ts",
 	"scripts": {
+		"newversion": "npm run lint && npm test && npm version patch --no-git-tag-version && npm run changelog && npm start && npm run newversiongit && npm publish ./",
+		"newversiongit": "git add --all  && git commit -m \"New version $npm_package_version. Read more https://github.com/xdan/docium/blob/master/CHANGELOG.MD \" && git tag $npm_package_version && git push --tags origin HEAD:master",
+		"lint": "npx eslint ./src/ ./tests/ && stylelint ./src/**/*.css",
+		"changelog": "auto-changelog -p --hide-credit --ignore-commit-pattern tmp",
 		"test": "mocha tests/**/**.test.js",
 		"start": "node ./bin/cli.js"
 	},
@@ -64,7 +68,11 @@
 		"@typescript-eslint/eslint-plugin": "^4.23.0",
 		"@typescript-eslint/parser": "^4.23.0",
 		"chai": "^4.3.4",
+		"changelog": "^1.4.2",
 		"eslint": "^7.26.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-header": "^3.1.1",
+		"eslint-plugin-prettier": "^3.4.0",
 		"mocha": "^8.4.0",
 		"prettier": "^2.3.0",
 		"stylelint": "^13.13.1",
