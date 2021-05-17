@@ -67,9 +67,10 @@ class Template {
 	 * @return {Promise<void>}
 	 */
 	async makeHTMlFile(filePath, content) {
-		return fs.write(
+		return fs.writeFile(
 			filePath,
-			this.tpl.replace('<!-- BODY -->', converter.makeHtml(content))
+			this.tpl.replace('<!-- BODY -->', converter.makeHtml(content)),
+			'utf-8'
 		);
 	}
 }

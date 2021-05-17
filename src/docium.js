@@ -93,14 +93,16 @@ class Docium {
 
 		return Promise.all(
 			markdownFiles.map(async filePath => {
-				const content = await fs.readFile(filePath),
+				const content = await fs.readFile(filePath, 'utf-8'),
 					relativePayth = path.relative(this.sourcePath, filePath),
 					directoryPath = path.dirname(relativePayth);
 
 				let
-					fileName = path.basename(relativePayth);
+					fileName = path.basename(relativePayth, path.extname(relativePayth));
 
-				if (fileName.toLowerCase() === 'README') {
+				console.log(fileName);
+
+				if (fileName.toLowerCase() === 'readme') {
 					fileName = 'index';
 				}
 
