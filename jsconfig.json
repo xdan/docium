@@ -1,0 +1,9 @@
+{
+  "include": [
+    "types/main.d.ts",
+    "src/docium.js"
+  ],
+  "compilerOptions": {
+    "checkJs": true
+  }
+}

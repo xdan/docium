@@ -1,0 +1,75 @@
+{
+	"name": "docium",
+	"version": "1.0.0",
+	"description": "",
+	"bin": {
+		"docium": "bin/cli.js"
+	},
+	"typings": "index.d.ts",
+	"scripts": {
+		"test": "mocha tests/**/**.test.js",
+		"start": "node ./bin/cli.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/xdan/docium.git"
+	},
+	"keywords": [
+		"documentation",
+		"generator",
+		"markdown",
+		"jsdoc",
+		"typescript",
+		"documentation generator"
+	],
+	"author": "Chupurnov Valeriy<chupurnov@gmail.com> (https://xdsoft.net/)",
+	"license": "MIT",
+	"docium": {
+		"theme": "light",
+		"template": "standard",
+		"colors": {
+			"body-background": "#fff",
+			"text-color": "#000",
+			"link-color": "#555 #66f #111"
+		},
+		"code-highlighter": "prism",
+		"code-highlighter-options": {
+			"theme": "darcula"
+		},
+		"base-url": null,
+		"examples": "./examples",
+		"show-source-for-example": true,
+		"generate-api": true,
+		"api-section": "api",
+		"plugins": [
+			[
+				"docium-github-links",
+				{
+					"stars": true,
+					"source": true
+				}
+			],
+			"docium-allow-react-in-ex"
+		]
+	},
+	"dependencies": {
+		"chalk": "^4.1.1",
+		"fs-extra": "^10.0.0",
+		"glob": "^7.1.6",
+		"glob-promise": "^4.1.0",
+		"showdown": "^1.9.1",
+		"yargs": "^17.0.1"
+	},
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^4.23.0",
+		"@typescript-eslint/parser": "^4.23.0",
+		"chai": "^4.3.4",
+		"eslint": "^7.26.0",
+		"mocha": "^8.4.0",
+		"prettier": "^2.3.0",
+		"stylelint": "^13.13.1",
+		"stylelint-config-idiomatic-order": "^8.1.0",
+		"stylelint-config-prettier": "^8.0.2",
+		"stylelint-prettier": "^1.2.0"
+	}
+}
