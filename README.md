@@ -1,6 +1,6 @@
 # Docium - Documentation static generator
 
-[Demo](https://xdsoft.net/jodit/doc/)
+[Demo](https://xdan.github.io/docium/)
 
 Documentation static generator for programmers
 
