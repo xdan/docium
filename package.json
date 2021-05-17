@@ -1,6 +1,6 @@
 {
 	"name": "docium",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "",
 	"bin": {
 		"docium": "bin/cli.js"
