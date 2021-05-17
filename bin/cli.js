@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+/*!
+ * Docium (https://xdsoft.net/docium/)
+ * Released under MIT see LICENSE.txt in the project root for license information.
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ */
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 const defaultConfig = require('../src/default.config');

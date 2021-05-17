@@ -8,6 +8,7 @@ const Template = require('./modules/template');
 const glob = require('glob-promise');
 const { output } = require('./modules/output');
 const fs = require('fs-extra');
+const Options = require('./modules/options');
 const { existsSync } = require('fs');
 const root = path.resolve(__dirname, '..');
 
@@ -31,7 +32,7 @@ class Docium {
 	 * @param {IOptions} options
 	 */
 	constructor(options) {
-		this.options = options;
+		this.options = new Options(options);
 
 		this.distPath = path.resolve(
 			process.cwd(),
@@ -67,7 +68,7 @@ class Docium {
 			`src/templates/${options.template}`
 		);
 
-		if (!existsSync(templatePath)) {
+		if (!existsSync(templatePath) && options.template) {
 			templatePath = path.resolve(process.cwd(), options.template);
 		}
 
