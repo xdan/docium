@@ -1,6 +1,6 @@
 {
 	"name": "docium",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"description": "",
 	"bin": {
 		"docium": "bin/cli.js"
@@ -67,6 +67,7 @@
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^4.23.0",
 		"@typescript-eslint/parser": "^4.23.0",
+		"auto-changelog": "^2.2.1",
 		"chai": "^4.3.4",
 		"changelog": "^1.4.2",
 		"eslint": "^7.26.0",
