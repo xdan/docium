@@ -52,7 +52,7 @@ Template for documentation. You can create yourself template and set it as path.
 npx docium --template ./src/docium-template
 ```
 
-[More about template](docs/template.md)
+[More about template](documentation/template.md)
 
 ### --colors
 
