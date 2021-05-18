@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file. Dates are d
 #### [1.0.4](https://github.com/xdan/docium/compare/1.0.4...1.0.4)
 
 - Added sidebar [`6e4aa5b`](https://github.com/xdan/docium/commit/6e4aa5baae41551d2ea28f68df3975e0343f37de)
+- Fixed title [`9a2fcf0`](https://github.com/xdan/docium/commit/9a2fcf0860c3e6734ee09f40ca4ae06c9530ada3)
 
 #### [1.0.4](https://github.com/xdan/docium/compare/1.0.3...1.0.4)
 
