@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+		/>
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+		<!-- HEAD -->
+		<link href='../assets/css/common.css' rel='stylesheet'/>
+<link href='../assets/css/main.css' rel='stylesheet'/>
+<link href='../assets/css/sidebar.css' rel='stylesheet'/>
+<link href='../assets/css/content.css' rel='stylesheet'/>
+<link href='../assets/css/style.css' rel='stylesheet'/>
+<link href='../assets/css/variables.css' rel='stylesheet'/>
+<link href='../node_modules/prismjs/themes/prism-tomorrow.css' rel='stylesheet'/>
+<link rel='icon' type='image/png' href='../assets/icons/icon.png'/>
+	</head>
+	<body>
+		<div class="main">
+			<aside class="sidebar">
+				<div class="sidebar-nav">
+					<ul>
+<li><p>Getting started</p>
+<ul>
+<li><a title='null' href='../index.html'>Quick start</a></li>
+</ul>
+</li>
+<li><p>Customization</p>
+<ul>
+<li><a title='null' href='options.html'>Options</a></li>
+<li><a title='null' href='themes.html'>Themes</a></li>
+</ul>
+</li>
+<li><p><a title='null' href='https://xdsoft.net'>Demo</a></p>
+</li>
+<li><p><a title='null' href='../CHANGELOG.html'>Changelog</a></p>
+</li>
+</ul>
+
+				</div>
+			</aside>
+			<section class="content">
+				<article class="markdown-section" id="main">
+					<h1 id="options">Options</h1>
+<h3 id="--config---default-dociumjs--dociumjson--docium">--config [ ] <code>(default: &quot;./docium.js&quot; || &quot;./docium.json&quot; || &quot;./.docium&quot;)</code></h3>
+<p>Configuration file. Instead, this you can create <code>docium</code> section in <code>package.json</code>.</p>
+<h3 id="--port-x-default-8082">--port [X] <code>(default: 8082)</code></h3>
+<p>Port for opening dev server.</p>
+<h3 id="--watch-x-default-false">--watch [X] <code>(default: false)</code></h3>
+<p>Enable watching on file changing and rebuild by this.</p>
+<h3 id="--theme---default-light">--theme [ ] <code>(default: &quot;light&quot;)</code></h3>
+<p>Theme. Possible values: <code>dark</code>, <code>light</code>.</p>
+<h3 id="--template-x-default-default">--template [X] <code>(default: &quot;default&quot;)</code></h3>
+<p>Template for documentation. You can create yourself template and set it as path.</p>
+<pre><code class="language-bash">npx docium --template ./src/docium-template
+</code></pre>
+<p><a title='null' href='template.html'>More about template</a></p>
+<h3 id="--colors--">--colors [ ]</h3>
+<p>Dictionary for theme.</p>
+<pre><code class="language-js"><span class="token punctuation">{</span>
+  <span class="token string">"colors"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"body-background"</span><span class="token operator">:</span> <span class="token string">"#fff"</span><span class="token punctuation">,</span>
+    <span class="token string">"text-color"</span><span class="token operator">:</span> <span class="token string">"#000"</span><span class="token punctuation">,</span>
+    <span class="token string">"link-color"</span><span class="token operator">:</span> <span class="token string">"#555 #66f #111"</span> <span class="token comment">// Default Hover Visited</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="--code-highlighter---default-prism">--code-highlighter [ ] <code>(default: &quot;prism&quot;)</code></h3>
+<p>Syntax highlighter for <code>code</code> sections.</p>
+<h3 id="--code-highlighter-options--">--code-highlighter-options [ ]</h3>
+<p>Syntax highlighter options</p>
+<h3 id="--base-url--">--base-url [ ]</h3>
+<p>By default <code>docuim</code> generates relative paths for all <code>html</code> files. You can change this behaviour.</p>
+<pre><code class="language-bash">npx docium ./ --base-url https://xdsoft.net/jodit/doc/
+</code></pre>
+<h3 id="--examples---default-examples">--examples [ ] <code>(default: &quot;./examples&quot;)</code></h3>
+<p>Folder for examples. You can put it inside your markdown file.</p>
+<pre><code class="language-bash"><span class="token function">touch</span> ./example/1.js
+<span class="token builtin class-name">echo</span> <span class="token string">"alert('Hello!')"</span> <span class="token operator">></span> ./example/1.js
+</code></pre>
+<p>In your markdown you can use this example by name</p>
+<pre><code class="language-md">{example 1}
+</code></pre>
+<p>You can use <code>jsx</code>,<code>html</code>, <code>js</code> files.</p>
+<p>Or you can create folder for example item:</p>
+<pre><code class="language-bash"><span class="token function">mkdir</span> ./example/my-ex/
+<span class="token function">touch</span> ./example/my-ex/some-name.js
+<span class="token function">touch</span> ./example/my-ex/some-name.html
+<span class="token builtin class-name">echo</span> <span class="token string">"alert(document.getElementById('example').innerHTML)"</span> <span class="token operator">></span> ./example/1/some-name.js
+<span class="token builtin class-name">echo</span> <span class="token string">"&lt;div id='example'>Test&lt;/div>"</span> <span class="token operator">></span> ./example/1/some-name.html
+</code></pre>
+<pre><code class="language-md">{example my-ex}
+</code></pre>
+<h3 id="--show-source-for-example---default-true">--show-source-for-example [ ] <code>(default: true)</code></h3>
+<p>Show tabs with HTML/JS/CSS sections. In <code>{example 1}</code> place</p>
+<h3 id="--generate-api---default-true">--generate-api [ ] <code>(default: true)</code></h3>
+<p>Generate API by <code>jsdoc</code> &amp; <code>typescript</code>.</p>
+<h3 id="--api-section---default-api">--api-section [ ] <code>(default: &quot;api&quot;)</code></h3>
+<p>Path in documentation for <code>API</code> section.</p>
+<h3 id="--excludes-x-default-node_modules">--excludes <code>[X] (default: [&#39;node_modules&#39;])</code></h3>
+<p>Exclude directories from generation.</p>
+<h3 id="--plugins--">--plugins [ ]</h3>
+<p>List of plugins.</p>
+<pre><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"plugins"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">[</span>
+            <span class="token string">"docium-github-links"</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"stars"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+                <span class="token property">"source"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token punctuation">[</span>
+            <span class="token string">"google-analytics"</span><span class="token punctuation">,</span>
+            <span class="token punctuation">{</span>
+                <span class="token property">"ga"</span><span class="token operator">:</span> <span class="token string">"UA-XXXXX-Y"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token string">"docium-allow-react-in-ex"</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+
+				</article>
+			</section>
+		</div>
+	</body>
+	
+</html>

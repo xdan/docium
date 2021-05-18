@@ -12,8 +12,8 @@
 		"lint": "npx eslint ./src/ ./tests/ && stylelint ./src/**/*.css",
 		"changelog": "auto-changelog -p --hide-credit --ignore-commit-pattern tmp",
 		"test": "mocha tests/**/**.test.js",
-		"build": "node ./bin/cli.js ./",
-		"start": "node ./bin/cli.js ./ --watch"
+		"build": "node ./bin/cli.js ./ ./docs",
+		"start": "node ./bin/cli.js ./ ./docs --watch"
 	},
 	"repository": {
 		"type": "git",
