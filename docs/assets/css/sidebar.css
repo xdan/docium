@@ -1,0 +1,96 @@
+.sidebar,
+body {
+	background-color: #fff;
+}
+
+.sidebar .sidebar-nav {
+	padding-bottom: 40px;
+	line-height: 2em;
+}
+
+.sidebar .sidebar-nav:empty {
+	display: none;
+}
+
+.sidebar {
+	position: absolute;
+	z-index: 20;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 300px;
+	padding: 40px 0 0;
+	border-right: 1px solid rgba(0, 0, 0, 0.07);
+	overflow-y: auto;
+	transition: transform 0.25s ease-out;
+}
+
+@media screen and (max-width: 768px) {
+	.github-corner,
+	.sidebar,
+	.sidebar-toggle {
+		position: fixed;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.sidebar {
+		left: -300px;
+		transition: transform 0.25s ease-out;
+	}
+}
+
+.sidebar ul {
+	padding: 0;
+	margin: 0 0 0 15px;
+}
+
+.sidebar ul,
+.sidebar ul li {
+	list-style: none;
+}
+
+.sidebar ul {
+	padding: 0;
+	margin: 0 0 0 15px;
+}
+
+.sidebar li {
+	margin: 6px 0;
+}
+
+.sidebar li > p {
+	margin: 0;
+	font-weight: 700;
+}
+
+.sidebar ul li ul {
+	padding: 0;
+}
+
+.sidebar ul li a {
+	display: block;
+	border-bottom: none;
+}
+
+.sidebar ul li a {
+	overflow: hidden;
+	color: #505d6b;
+	font-size: 14px;
+	font-weight: 400;
+	text-decoration: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.sidebar ul li.active > a {
+	border-right: 2px solid;
+	color: var(--text-color, #42b983);
+	font-weight: 600;
+}
+
+.app-sub-sidebar li:before {
+	padding-right: 4px;
+	content: '-';
+	float: left;
+}
