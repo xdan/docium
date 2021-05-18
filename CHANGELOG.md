@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file. Dates are d
 #### [1.0.3](https://github.com/xdan/docium/compare/1.0.2...1.0.3)
 
 > 18 May 2021
+>
 
 - New version 1.0.3. Read more https://github.com/xdan/docium/blob/master/CHANGELOG.md [`fd77d73`](https://github.com/xdan/docium/commit/fd77d73149a8eff5623f1435112d3fead28126ba)
 - Fixed bug in package.json [`f691686`](https://github.com/xdan/docium/commit/f69168603a509f2a7903d1909742d03c0a3dcada)

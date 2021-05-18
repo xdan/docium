@@ -7,12 +7,13 @@
 	},
 	"typings": "index.d.ts",
 	"scripts": {
-		"newversion": "npm run lint && npm test && npm version patch --no-git-tag-version && npm run changelog && npm start && npm run newversiongit && npm publish ./",
+		"newversion": "npm run lint && npm test && npm version patch --no-git-tag-version && npm run changelog && npm run build && npm run newversiongit && npm publish ./",
 		"newversiongit": "git add --all  && git commit -m \"New version $npm_package_version. Read more https://github.com/xdan/docium/blob/master/CHANGELOG.md \" && git tag $npm_package_version && git push --tags origin HEAD:master",
 		"lint": "npx eslint ./src/ ./tests/ && stylelint ./src/**/*.css",
 		"changelog": "auto-changelog -p --hide-credit --ignore-commit-pattern tmp",
 		"test": "mocha tests/**/**.test.js",
-		"start": "node ./bin/cli.js ./ ./docs"
+		"build": "node ./bin/cli.js ./",
+		"start": "node ./bin/cli.js ./ --watch"
 	},
 	"repository": {
 		"type": "git",
@@ -30,7 +31,7 @@
 	"license": "MIT",
 	"docium": {
 		"theme": "light",
-		"template": "standard",
+		"template": "default",
 		"colors": {
 			"body-background": "#fff",
 			"text-color": "#000",
@@ -58,9 +59,14 @@
 	},
 	"dependencies": {
 		"chalk": "^4.1.1",
+		"express": "^4.17.1",
 		"fs-extra": "^10.0.0",
 		"glob": "^7.1.6",
 		"glob-promise": "^4.1.0",
+		"marked": "^2.0.3",
+		"node-watch": "^0.7.1",
+		"open": "^8.0.9",
+		"prismjs": "^1.23.0",
 		"showdown": "^1.9.1",
 		"yargs": "^17.0.1"
 	},

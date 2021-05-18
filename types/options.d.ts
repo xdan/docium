@@ -6,8 +6,17 @@
 
 export interface IOptions {
 	theme: 'dark' | 'light';
+
+	debug: boolean;
+
 	watch: boolean;
-	template: 'standard' | string;
+	port: number;
+
+	distPath: string;
+	sourcePath: string;
+
+	sidebar: string;
+	template: 'default' | string;
 	colors: { [key: string]: string };
 	'code-highlighter': 'prism';
 	'code-highlighter-options': { [key: string]: any };

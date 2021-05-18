@@ -6,9 +6,9 @@
 const fs = require('fs-extra');
 const path = require('path');
 const { existsSync, readFileSync } = require('fs');
-const showdown = require('showdown'),
-	converter = new showdown.Converter();
+const marked = require('marked');
 const glob = require('glob-promise');
+const { root } = require('../consts');
 
 class Template {
 	/**
@@ -28,31 +28,79 @@ class Template {
 	/**
 	 * @type {string}
 	 */
+	sidebar = '';
+
+	/**
+	 * @type {string}
+	 */
 	templatePath = '';
 
 	/**
-	 * @param {string} templatePath
+	 * @type {Events}
 	 */
-	constructor(templatePath) {
-		this.templatePath = templatePath;
+	events;
 
-		this.data = require(templatePath);
+	/**
+	 * @type {IOptions}
+	 */
+	options;
 
-		const htmlPath = path.resolve(templatePath, this.data.html);
-		if (!existsSync(htmlPath)) {
-			throw new Error('Need valid template HTML file');
-		}
+	/**
+	 * @param {IOptions} options
+	 * @param {Events} events
+	 */
+	constructor(options, events) {
+		this.options = options;
+		this.events = events;
 
-		this.tpl = readFileSync(htmlPath, 'utf-8');
+		this.templatePath = this.resolveTemplatePath();
+
+		this.data = require(this.templatePath);
+
+		this.events.on('postHTML', this.convertMarkdownToHTML);
 	}
 
-	assets = { js: [], css: [] };
+	resolveTemplatePath() {
+		let templatePath = path.resolve(
+			root,
+			`src/templates/${this.options.template}`
+		);
+
+		if (!existsSync(templatePath) && this.options.template) {
+			templatePath = path.resolve(process.cwd(), this.options.template);
+		}
+
+		if (!existsSync(path.resolve(templatePath, 'index.js'))) {
+			throw new Error('Need valid template name');
+		}
+
+		return templatePath;
+	}
+
+	assets = { js: [], css: [], icons: [] };
 
 	/**
 	 * @param {string} distPath
 	 * @return {Promise<unknown>}
 	 */
 	async prepare(distPath) {
+		const htmlPath = path.resolve(this.templatePath, this.data.html);
+
+		if (!existsSync(htmlPath)) {
+			throw new Error('Need valid template HTML file');
+		}
+
+		this.tpl = readFileSync(htmlPath, 'utf-8');
+
+		const sidebarPath = path.resolve(
+			this.options.sourcePath,
+			this.options.sidebar
+		);
+
+		if (existsSync(sidebarPath)) {
+			this.sidebar = readFileSync(sidebarPath, 'utf-8');
+		}
+
 		if (this.data.assets) {
 			await Promise.all(
 				Object.keys(this.data.assets).map(async (key) => {
@@ -65,30 +113,39 @@ class Template {
 					return Promise.all(
 						items.map(async (item) => {
 							const files = await glob.promise(
-								path.resolve(this.templatePath, 'assets', item)
+								path.resolve(this.templatePath, item)
 							);
 
 							return Promise.all(
 								files.map(async (fileName) => {
 									const relativePath = path.relative(
-											this.templatePath,
-											fileName
-										),
-										directoryPath =
-											path.dirname(relativePath);
-
-									await fs.ensureDir(
-										path.resolve(distPath, directoryPath)
+										this.templatePath,
+										fileName
 									);
 
-									const assetFilePath = path.resolve(
-										distPath,
-										relativePath
+									let assetFilePath,
+										rel = '';
+
+									do {
+										assetFilePath = path.resolve(
+											distPath,
+											rel,
+											relativePath
+										);
+
+										rel += './sub';
+									} while (
+										!assetFilePath.startsWith(distPath)
+									);
+
+									await fs.ensureDir(
+										path.dirname(assetFilePath)
 									);
 
 									if (!this.assets[key]) {
 										this.assets[key] = [];
 									}
+
 									this.assets[key].push(assetFilePath);
 
 									return fs.copy(fileName, assetFilePath);
@@ -109,34 +166,76 @@ class Template {
 	 */
 	async makeHTMlFile(filePath, content) {
 		const replace = Object.keys(this.assets).reduce((acc, key) => {
-			acc[key] = this.assets[key].map((assetFile) =>
-				path.relative(path.dirname(filePath), assetFile)
-			);
+			acc[key] = this.assets[key].map((assetFile) => {
+				const relPath = path.relative(
+					path.dirname(filePath),
+					assetFile
+				);
+
+				switch (key) {
+					case 'css':
+						return `<link href='${relPath}' rel='stylesheet'/>`;
+
+					case 'icons': {
+						return `<link rel='icon' type='image/png' href='${relPath}'/>`;
+					}
+
+					case 'script':
+						return `<script src='${relPath}'></script>`;
+				}
+			});
 
 			return acc;
 		}, {});
 
+		marked.use({
+			renderer: {
+				link: (href, title, text) => {
+					if (!/^(http|https)?:\/\//.test(href)) {
+						const fileRealPath = path.resolve(
+								this.options.sourcePath,
+								path.relative(this.options.distPath, filePath)
+							),
+							fullPath = path.resolve(
+								this.options.sourcePath,
+								href
+							);
+
+						href = path
+							.relative(path.dirname(fileRealPath), fullPath)
+							.replace(/readme\.md/i, 'index.html')
+							.replace(/\.md$/i, '.html');
+					}
+
+					return `<a title='${title}' href='${href}'>${text}</a>`;
+				}
+			}
+		});
+
+		this.events.emit('addAssets', replace);
+
+		const html = this.events.emit('postHTML', content) || content;
+
 		return fs.writeFile(
 			filePath,
 			this.tpl
+				.replace('<!-- SIDEBAR -->', await this.getSideBar(filePath))
 				.replace(
 					'<!-- STYLES -->',
-					replace.css
-						.map(
-							(relPath) =>
-								`<link href='${relPath}' rel='stylesheet'/>`
-						)
-						.join('\n')
+					replace.css.concat(replace.icons).join('\n')
 				)
-				.replace(
-					'<!-- SCRIPTS -->',
-					replace.css
-						.map((relPath) => `<script src='${relPath}'></script>`)
-						.join('\n')
-				)
-				.replace('<!-- BODY -->', converter.makeHtml(content)),
+				.replace('<!-- SCRIPTS -->', replace.js.join('\n'))
+				.replace('<!-- CONTENT -->', html),
 			'utf-8'
 		);
+	}
+
+	getSideBar() {
+		return this.convertMarkdownToHTML(this.sidebar);
+	}
+
+	convertMarkdownToHTML(content) {
+		return marked(content);
 	}
 }
 

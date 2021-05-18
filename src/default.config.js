@@ -5,8 +5,10 @@
  */
 module.exports = {
 	theme: 'light',
-	template: 'standard',
+	template: 'default',
+	debug: false,
 	watch: false,
+	sidebar: './_sidebar.md',
 	colors: {
 		'body-background': '#fff',
 		'text-color': '#000',
