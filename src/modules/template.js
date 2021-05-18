@@ -138,6 +138,11 @@ class Template {
 										!assetFilePath.startsWith(distPath)
 									);
 
+									assetFilePath = assetFilePath.replace(
+										'node_modules',
+										'assets'
+									);
+
 									await fs.ensureDir(
 										path.dirname(assetFilePath)
 									);
