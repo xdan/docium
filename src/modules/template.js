@@ -216,9 +216,22 @@ class Template {
 
 		const html = this.events.emit('postHTML', content) || content;
 
+		const title = [this.options.title];
+
+		for (let i = 1; i <= 3; i += 1) {
+			if (html.includes('<h' + i)) {
+				const [, subtitle] = RegExp(`<h${i}[^>]*>(.*)</h${i}>`).exec(html);
+				title.unshift(subtitle);
+			}
+		}
+
 		return fs.writeFile(
 			filePath,
 			this.tpl
+				.replace(
+					/<title>.*<\/title>/,
+					`<title>${title.join(' - ')}</title>`
+				)
 				.replace('<!-- SIDEBAR -->', await this.getSideBar(filePath))
 				.replace(
 					'<!-- STYLES -->',

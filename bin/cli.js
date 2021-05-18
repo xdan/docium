@@ -34,6 +34,10 @@ const argv = yargs(hideBin(process.argv))
 		type: 'boolean',
 		default: true
 	})
+	.option('title', {
+		describe: 'Title',
+		type: 'string'
+	})
 	.option('config', {
 		describe: 'Config file',
 		type: 'string'

@@ -5,6 +5,8 @@
  */
 
 export interface IOptions {
+	title: string;
+
 	theme: 'dark' | 'light';
 
 	debug: boolean;
