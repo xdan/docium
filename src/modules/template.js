@@ -220,7 +220,9 @@ class Template {
 
 		for (let i = 1; i <= 3; i += 1) {
 			if (html.includes('<h' + i)) {
-				const [, subtitle] = RegExp(`<h${i}[^>]*>(.*)</h${i}>`).exec(html);
+				const [, subtitle] = RegExp(`<h${i}[^>]*>(.*)</h${i}>`).exec(
+					html
+				);
 				title.unshift(subtitle);
 			}
 		}
